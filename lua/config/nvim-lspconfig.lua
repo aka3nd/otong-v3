@@ -1,64 +1,34 @@
---local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local lspconfig = require("lspconfig")
---local lspconfig = vim.lsp.config('…')
+--require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
---[[ lspconfig.lua_ls.setup({
-  capabilities = capabilities
-})
-
-lspconfig.rust_analyzer.setup({
-  capabilities = capabilities
-})
-
-lspconfig.gopls.setup({
-  capabilities = capabilities
-})
-
-lspconfig.clangd.setup({
-  capabilities = capabilities
-})
-
-lspconfig.cssls.setup({
-  capabilities = capabilities
-})
-
-
-require'lspconfig'.html.setup({
-  capabilities = capabilities
-}) ]]
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-require("lspconfig").html.setup({
-	capabilities = capabilities,
-
-	configurationSection = { "html", "css", "javascript" },
-	embeddedLanguages = {
-		css = true,
-		javascript = true,
-	},
-	provideFormatter = true,
-})
-
---[[ require("lspconfig").bashls.setup({
-	cmd = { "bash-language-server", "start" },
-	filetypes = { "bash", "sh" },
-}) ]]
-
-vim.lsp.config('bashls',{
-  cmd = {"bash-language-server", "start"},
-  filetypes = {"bash","sh"},
+-- bash --
+vim.lsp.config('bashls', {
+  cmd = { "bash-language-server", "start" },
+  filetypes = { "bash", "sh" },
+  capabilities = capabilities,
 })
 vim.lsp.enable('bashls')
 
+-- rust language --
+vim.lsp.config('rust_analyzer', {
+  cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
+  capabilities = capabilities,
+})
+vim.lsp.enable('rust_analyzer')
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { "clangd", "cssls", "pyright", "ts_ls", "lua_ls", "gopls","rust_analyzer" }
-for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
-		-- on_attach = my_custom_on_attach,
-		capabilities = capabilities,
-	})
-end
+-- c/cpp--
+vim.lsp.config('clangd', {
+  cmd = { "clangd" },
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+  capabilities = capabilities,
+})
+vim.lsp.enable('clangd')
 
-vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+-- lua language --
+vim.lsp.config('lua_ls', {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  capabilities = capabilities,
+})
+vim.lsp.enable('lua_ls')
