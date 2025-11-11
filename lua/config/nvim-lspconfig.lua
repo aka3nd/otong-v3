@@ -19,7 +19,10 @@ vim.lsp.enable('rust_analyzer')
 
 -- c/cpp--
 vim.lsp.config('clangd', {
-  cmd = { "clangd" },
+  cmd = { "clangd"},
+  init_options = {
+    fallbackFlags = { "-std=c++26" },
+  },
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
   capabilities = capabilities,
 })
